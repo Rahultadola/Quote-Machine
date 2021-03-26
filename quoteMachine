@@ -1,0 +1,212 @@
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+
+
+<!Doctype HTML>
+<html>
+  <head>
+  	<meta charset="utf-8"/>
+    <title>Quote Machine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Nixie+One&family=Tajawal:wght@300&display=swap" rel="stylesheet">
+    
+  </head>
+  <style>
+    body{
+      display: flex;
+      height: 90vh;
+      flex-direction: column;
+      background: #700030;
+      color: #700030;
+    }
+
+    .container{
+      background-color: #fff;
+      width: 70%;
+      margin: auto;
+      
+      border-radius: 0.5em;
+      box-shadow: 0px 0px 5px #ffffffb0, 0px 0px 10px #ffffff75;
+    }
+
+    #quote-box{
+      width: 90%;
+      margin: auto;
+      border-radius: 1em;
+    }
+
+    #text{
+      text-align: center;
+      margin: 1em 1em 0 1em;
+      font-size: 1.8em;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    #auth{
+     text-align: right;
+      margin: 0 0 1em auto;
+      font-family: 'Nixie One', cursive;
+
+    }
+
+    .buttons{
+      display:flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: auto auto 2em auto;
+      align-items: center;
+    }
+    
+    .socialMButtons{
+    	display: flex;
+	    justify-content: space-evenly;
+	    width: 20%;
+    }
+
+    #tweet-quote{
+    	color: inherit;
+    }
+
+    button{
+    	line-height: 2em;
+    	border: none;
+    	color: #fff;
+    	background: #700030;
+    	padding: 0.5em 1em;
+    	cursor: pointer;
+    }
+
+    .socialMButtons a{
+    	text-decoration: none;
+    	color: inherit;
+    }
+
+    .designer{
+      text-align: center;
+      color: #ddd;
+      padding: 1em;
+    }
+  </style>
+  
+  <body id="body">
+    <div class="container" id="container">
+      <div id="quote-box">
+      	
+         <h1 id="text">...</h1>
+        
+        <div id="auth">
+          - <span id="author"></span>
+        </div>
+        <div class="buttons">
+          <div class="socialMButtons">
+            <a id="tweet-quote" target="_blank" title="tweet-quote" href="https://www.twitter.com/intent/tweet"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a>
+
+            <a id="tumblr-quote" target="_blank" href="https://www.tumblr.com/widgets/share/tool"><i class="fa fa-tumblr fa-2x" aria-hidden="true"></i></a>
+          </div>
+          <button id="new-quote">New Quote</button>
+        </div>
+      </div>
+      
+      
+    </div>
+    <div class="designer">
+        by Rahul
+      </div>
+    
+  </body>
+  
+  
+  <script type="text/javascript">
+
+  	const colors = [
+  		'#16a085',
+  		'#27ae60',
+  		'#2c3e50',
+  		'#f39c12',
+  		'#e74c3c',
+  		'#9b59b6',
+  		'#FB6964',
+  		'#342224',
+  		'#472E32',
+  		'#BDBB99',
+  		'#77B1A9',
+  		'#73A857'
+  		];
+
+  	function getRandomInt(max) {
+		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+	function changCss(){
+		var body = document.getElementById('body');
+		const colr = colors[getRandomInt(colors.length)];
+		const buttn = document.getElementById('new-quote');
+
+		body.style.transition = '1s';
+		buttn.style.transition = '1s';
+
+		body.style.color = colr;
+		buttn.style.background = colr;
+		body.style.background = colr;
+	}
+
+	function displayQuoteData(quoteArr){		
+		const text = document.getElementById('text');
+		var auth = document.getElementById('author');
+		var tweet = document.getElementById('tweet-quote');
+		var tumblr = document.getElementById('tumblr-quote');
+
+		const p = quoteArr[getRandomInt(quoteArr.length)];
+
+		tweet.href += '?hashtags=quotes&related=motivation&text=\"'+ p.quote + '"  - ' + p.author;
+
+		tumblr.href += '?posttype=quote&tags=quotes,motivation&caption=' + p.author + '&content=' + p.quote + '&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button';
+
+				
+		text.animate([{ opacity: 1, fontSize: '1.8em'}, { opacity: 0.6, fontSize: '1.8em'}, { opacity: 0, fontSize: '1.8em'}, { opacity: 0, fontSize: '1em'}, { opacity: 0, fontSize: '0.5em'}], {duration: 1000});
+
+		auth.animate([{ opacity: 1}, { opacity: 0}],{duration: 900, iteration: 1});
+
+		if( text.innerHTML === '_'){
+			
+		}
+		setTimeout(() => { text.animate([
+			{opacity: 0, fontSize: '0.5em'}, {opacity: 0, fontSize: '1em'},
+			{fontSize: '1.8em', opacity: 0}, {opacity: 0.5}, { opacity: 0.75},
+			{opacity: 1}], {duration: 1000});
+
+			auth.animate([{ fontSize: '0.5em', opacity: 0}, { fontSize: '1em', opacity: 1}],{duration: 500, iteration: 1});
+
+			text.innerHTML = p.quote;
+			auth.innerHTML = p.author;
+
+		}, 800);
+
+	}
+  	
+  	document.addEventListener("DOMContentLoaded", () => {
+  		const Q = "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json";
+  		const request = new Request(Q);
+
+  		console.log(request);
+  		
+  		const resp = [];
+  		fetch(request).then((response) => {
+  			if(response.status === 200){
+  				response.json().then(value => {
+  					changCss()
+  					displayQuoteData(value.quotes);
+  					resp.push(...value.quotes);
+  				});
+  			}
+  		});
+
+  		
+  		const newQuote = document.getElementById('new-quote');
+  		newQuote.addEventListener('click', () => { changCss(); displayQuoteData(resp); });
+
+
+  	});
+	  	
+  </script>
+</html>
